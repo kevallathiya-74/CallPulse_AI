@@ -383,7 +383,7 @@ export default function AnalysisReport() {
     <PageWrapper hideFooter>
       <div ref={reportRef} className="max-w-5xl mx-auto px-6 py-10">
         {/* Header */}
-        <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
+        <div className="flex items-start justify-between mb-8 flex-wrap gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6 shadow-[0_14px_34px_rgba(0,0,0,0.22)]">
           <div>
             <Link to="/dashboard" className="flex items-center gap-1 text-text-muted hover:text-primary text-sm mb-3 transition-colors">
               <ArrowLeft size={14} /> Dashboard
@@ -412,7 +412,7 @@ export default function AnalysisReport() {
         </div>
 
         {/* Overall score */}
-        <GlassCard className="p-6 mb-6 text-center" hover={false}>
+        <GlassCard className="p-6 mb-6 text-center bg-gradient-to-b from-white/[0.05] to-transparent" hover={false}>
           <p className="text-text-muted text-sm mb-2">Overall Quality Score</p>
           {overallScore != null ? (
             <p className={`text-5xl md:text-6xl font-syne font-bold tracking-tight ${getScoreColor(overallScore ?? 0)}`}>
@@ -448,7 +448,7 @@ export default function AnalysisReport() {
           {DIMENSION_MAP.map(({ label, field, icon }) => {
             const score = resolveDimensionScore(report, dimensionScores, field);
             return (
-              <GlassCard key={label} className="p-4 text-center" hover={false}>
+              <GlassCard key={label} className="p-4 text-center bg-white/[0.02]" hover={false}>
                 {React.createElement(icon, { size: 18, className: `mx-auto mb-2 ${getScoreColor(score ?? 0)}` })}
                 <p className={`text-2xl font-syne font-bold ${getScoreColor(score ?? 0)}`}>
                   {score != null ? `${Math.round(score)} / 100` : '—'}
@@ -461,11 +461,11 @@ export default function AnalysisReport() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <GlassCard className="p-6" hover={false}>
+          <GlassCard className="p-6 bg-white/[0.02]" hover={false}>
             <h3 className="font-syne font-semibold text-text-primary mb-4">Sentiment Timeline</h3>
             <SentimentTimeline data={sentimentData} recoveryTime={recoveryTime} />
           </GlassCard>
-          <GlassCard className="p-6" hover={false}>
+          <GlassCard className="p-6 bg-white/[0.02]" hover={false}>
             <h3 className="font-syne font-semibold text-text-primary mb-4">Dimension Scorecard</h3>
             <ScorecardRadar data={radarData} />
           </GlassCard>
@@ -473,7 +473,7 @@ export default function AnalysisReport() {
 
         {/* Coaching panel */}
         {coaching && (
-          <GlassCard className="p-6" hover={false}>
+          <GlassCard className="p-6 bg-gradient-to-b from-cyan-400/[0.06] to-transparent" hover={false}>
             <h3 className="font-syne font-semibold text-text-primary mb-4">Coaching Insights</h3>
             <p className="text-text-muted text-sm mb-4 leading-relaxed">{coaching.summary}</p>
             <div className="grid md:grid-cols-2 gap-6">

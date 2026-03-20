@@ -21,11 +21,15 @@ export default function PageWrapper({ children, hideFooter = false, className = 
       animate="animate"
       exit="exit"
       transition={pageTransition}
-      className={`min-h-screen bg-background ${className}`}
+      className={`min-h-screen bg-background relative overflow-hidden ${className}`}
     >
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-32 -left-24 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="absolute top-40 -right-32 h-96 w-96 rounded-full bg-orange-400/10 blur-3xl" />
+      </div>
       <Navbar />
       <ErrorBoundary>
-        <main className="pt-16">
+        <main className="pt-20 relative z-10">
           {children}
         </main>
       </ErrorBoundary>

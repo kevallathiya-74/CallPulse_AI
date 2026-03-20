@@ -99,12 +99,12 @@ export default function Navbar() {
         className={[
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           scrolled || mobileMenuOpen
-            ? 'bg-background/95 backdrop-blur-[14px] border-b border-primary/10 shadow-[0_1px_30px_rgba(0,212,255,0.05)]'
+            ? 'bg-background/80 backdrop-blur-[14px] border-b border-primary/15 shadow-[0_1px_30px_rgba(0,212,255,0.08)]'
             : 'bg-transparent',
         ].join(' ')}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="mt-3 mb-2 flex items-center justify-between h-16 rounded-2xl border border-white/10 bg-[#071126]/75 px-3 shadow-[0_10px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl">
             {/* Left: Logo */}
             <div className="flex-1 flex items-center justify-start">
               <Link 
@@ -115,11 +115,11 @@ export default function Navbar() {
                   if (location.pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#10b981] via-[#3b82f6] to-[#8b5cf6] flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.7)] transition-all shrink-0">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 via-sky-500 to-orange-400 flex items-center justify-center shadow-[0_0_18px_rgba(0,212,255,0.45)] group-hover:shadow-[0_0_25px_rgba(0,212,255,0.65)] transition-all shrink-0">
                   <Mic size={18} className="text-white drop-shadow-sm" />
                 </div>
                 <span className="font-syne font-800 text-lg sm:text-lg tracking-wide text-white/90 group-hover:text-white transition-colors">
-                  CallPulse <span className="text-[#a855f7]">AI</span>
+                  CallPulse <span className="text-cyan-300">AI</span>
                 </span>
               </Link>
             </div>
@@ -141,10 +141,10 @@ export default function Navbar() {
                   }
                 }
 
-                const baseClass = "px-5 py-2.5 text-sm font-semibold transition-all duration-300 rounded-full select-none flex items-center gap-2";
+                const baseClass = "px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full select-none flex items-center gap-2";
                 const activeClass = isActive 
-                  ? "text-[#00d4ff] bg-[#00d4ff]/[0.08]" 
-                  : "text-white/60 hover:text-white hover:bg-white/5";
+                  ? "text-cyan-300 bg-cyan-400/10 border border-cyan-400/20" 
+                  : "text-white/65 border border-transparent hover:text-white hover:bg-white/5";
                 const linkClasses = `${baseClass} ${activeClass}`;
 
                 const handleClick = () => {
@@ -180,12 +180,12 @@ export default function Navbar() {
               {!isApp ? (
                 <>
                   <Link to="/login">
-                    <button className="px-6 py-2.5 rounded-full border border-[#00d4ff]/30 text-[#00d4ff] text-sm font-semibold hover:bg-[#00d4ff]/10 hover:border-[#00d4ff]/50 transition-all duration-300">
+                    <button className="px-5 py-2 rounded-full border border-cyan-300/35 text-cyan-300 text-sm font-semibold hover:bg-cyan-400/10 hover:border-cyan-300/60 transition-all duration-300">
                       Sign In
                     </button>
                   </Link>
                   <Link to="/register">
-                    <button className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7f00ff] text-white text-sm font-semibold flex items-center gap-2 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:scale-105 active:scale-95 transition-all duration-300">
+                    <button className="px-5 py-2 rounded-full bg-gradient-to-r from-cyan-400 to-sky-500 text-[#041325] text-sm font-semibold flex items-center gap-2 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:scale-105 active:scale-95 transition-all duration-300">
                       <Zap size={14} className="fill-white/40 text-white" /> 
                       Get Started
                     </button>
@@ -205,7 +205,7 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden w-10 h-10 flex items-center justify-center text-text-muted hover:text-primary transition-colors rounded-[14px] bg-white/5"
+              className="md:hidden w-10 h-10 flex items-center justify-center text-text-muted hover:text-primary transition-colors rounded-[14px] bg-white/10 border border-white/10"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -221,7 +221,7 @@ export default function Navbar() {
             className="absolute inset-0 bg-background/95 backdrop-blur-[14px]"
             onClick={closeMobileMenu}
           />
-          <div className="relative z-10 p-6 flex flex-col gap-4">
+          <div className="relative z-10 p-6 flex flex-col gap-4 max-w-sm mx-4 mt-4 rounded-2xl border border-white/10 bg-[#081428]/92 shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
             {(!isApp ? NAV_LINKS : APP_LINKS).map((l) => {
               const Icon = l.icon;
               

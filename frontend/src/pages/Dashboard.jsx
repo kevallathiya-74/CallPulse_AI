@@ -75,10 +75,15 @@ export default function Dashboard() {
 
   return (
     <PageWrapper hideFooter>
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-6 py-8 md:py-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6 shadow-[0_14px_34px_rgba(0,0,0,0.22)]">
+          <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 mb-2 surface-chip text-xs font-medium">
+              <LayoutDashboard size={13} className="text-cyan-300" />
+              Live QA Operations
+            </div>
             <h1 className="text-2xl font-syne font-bold text-text-primary">Dashboard</h1>
             <p className="text-text-muted text-sm">Overview of your QA analytics</p>
           </div>
@@ -97,6 +102,7 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+        </div>
 
         {/* Summary cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
@@ -109,7 +115,7 @@ export default function Dashboard() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.08 }}
                   >
-                    <GlassCard className={`p-5 border-l-2 ${card.borderColor}`}>
+                    <GlassCard className={`p-5 border-l-2 ${card.borderColor} bg-gradient-to-b from-white/[0.045] to-transparent`}>
                       <div className="flex items-start justify-between mb-4">
                         <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${card.gradient} flex items-center justify-center`}>
                           <Icon size={20} style={{ color: card.iconColor }} />
@@ -125,13 +131,13 @@ export default function Dashboard() {
             </div>
 
             {/* Quality trend + Recent calls */}
-            <GlassCard className="p-6 mb-8" hover={false}>
+            <GlassCard className="p-6 mb-8 bg-gradient-to-b from-white/[0.035] to-transparent" hover={false}>
               <h2 className="font-syne font-semibold text-text-primary mb-4">Quality Score Trend</h2>
               <QualityScoreTrend data={summary?.score_trend || []} />
             </GlassCard>
 
             {/* Recent calls table */}
-            <GlassCard className="p-0 overflow-hidden" hover={false}>
+            <GlassCard className="p-0 overflow-hidden bg-gradient-to-b from-white/[0.03] to-transparent" hover={false}>
               <div className="px-6 py-4 border-b border-white/5">
                 <h2 className="font-syne font-semibold text-text-primary">Recent Calls</h2>
               </div>
@@ -162,7 +168,7 @@ export default function Dashboard() {
                       recentCalls.map((call, i) => {
                         const sc = getStatusClasses(call.status);
                         return (
-                          <tr key={call.id || i} className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                          <tr key={call.id || i} className="border-b border-white/[0.03] hover:bg-cyan-300/[0.04] transition-colors">
                             <td className="px-6 py-4 text-sm">
                               <Link
                                 to={`/report/${call.id}`}

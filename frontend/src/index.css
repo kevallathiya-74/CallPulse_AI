@@ -4,17 +4,20 @@
 @tailwind utilities;
 
 :root {
-  --bg: #030812;
-  --primary: #00D4FF;
-  --secondary: #7B2FFF;
-  --accent: #FF6B35;
+  --bg: #040b16;
+  --bg-elevated: #0a1424;
+  --primary: #00d4ff;
+  --secondary: #2bb3ff;
+  --accent: #ff7a1a;
   --success: #00E676;
   --warning: #FFD600;
   --error: #FF3D57;
-  --text-primary: #E8F4FD;
-  --text-muted: rgba(232, 244, 253, 0.5);
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(0, 212, 255, 0.12);
+  --text-primary: #eaf4ff;
+  --text-muted: rgba(234, 244, 255, 0.58);
+  --glass-bg: rgba(8, 19, 37, 0.74);
+  --glass-border: rgba(90, 188, 255, 0.2);
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-border: rgba(255, 255, 255, 0.1);
 }
 
 *, *::before, *::after {
@@ -28,12 +31,21 @@ html {
 }
 
 body {
-  background-color: var(--bg);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(0, 212, 255, 0.14), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(255, 122, 26, 0.12), transparent 30%),
+    radial-gradient(circle at 45% 110%, rgba(43, 179, 255, 0.1), transparent 32%),
+    linear-gradient(180deg, #040b16 0%, #030812 44%, #02050d 100%);
   color: var(--text-primary);
   font-family: 'Outfit', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+::selection {
+  background: rgba(0, 212, 255, 0.28);
+  color: #eaf8ff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -62,9 +74,17 @@ h1, h2, h3, h4, h5, h6 {
 .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 18px;
+}
+
+.surface-chip {
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  color: var(--text-muted);
+  border-radius: 999px;
 }
 
 /* Gradient text animation */

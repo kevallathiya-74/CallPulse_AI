@@ -121,12 +121,16 @@ export default function UploadCall() {
     <PageWrapper hideFooter>
       <div className="max-w-2xl mx-auto px-6 py-12">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <div className="mb-8">
+          <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6 shadow-[0_14px_34px_rgba(0,0,0,0.22)]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 mb-2 surface-chip text-xs font-medium">
+              <Upload size={13} className="text-cyan-300" />
+              AI Ingestion Pipeline
+            </div>
             <h1 className="heading-md text-text-primary mb-2">Upload Call for Analysis</h1>
             <p className="text-text-muted">Drop an audio recording or paste a transcript — AI will score it in under 8 seconds</p>
           </div>
 
-          <GlassCard className="p-8" hover={false}>
+          <GlassCard className="p-8 bg-gradient-to-b from-white/[0.05] to-transparent" hover={false}>
             <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
               {/* Drop zone */}
               <div>
@@ -138,7 +142,7 @@ export default function UploadCall() {
                   onClick={() => fileInputRef.current?.click()}
                   className={[
                     'border-2 border-dashed rounded-card p-10 text-center cursor-pointer transition-all',
-                    dragging ? 'border-primary bg-primary/5' : 'border-white/10 hover:border-primary/40 hover:bg-white/2',
+                    dragging ? 'border-primary bg-primary/7' : 'border-white/10 hover:border-primary/45 hover:bg-white/5',
                     errors.file ? 'border-error/40' : '',
                   ].join(' ')}
                 >
@@ -185,7 +189,7 @@ export default function UploadCall() {
                   value={form.agentId}
                   onChange={(e) => { setForm((f) => ({ ...f, agentId: e.target.value })); setErrors((e2) => ({ ...e2, agentId: undefined })); }}
                   disabled={!hasAgents || agentsLoading}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-text-primary text-sm outline-none transition-colors ${errors.agentId ? 'border-error/60' : 'border-white/10 focus:border-primary/60'}`}
+                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-text-primary text-sm outline-none transition-colors ${errors.agentId ? 'border-error/60' : 'border-white/15 focus:border-primary/60'}`}
                 >
                   <option className="bg-slate-900 text-white" value="" disabled>{agentsLoading ? 'Loading agents...' : hasAgents ? 'Select an assigned agent...' : 'No agents available'}</option>
                   {agents.map((a) => (
@@ -213,7 +217,7 @@ export default function UploadCall() {
                   name="campaignType"
                   value={form.campaignType}
                   onChange={(e) => { setForm((f) => ({ ...f, campaignType: e.target.value })); setErrors((e2) => ({ ...e2, campaignType: undefined })); }}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-text-primary text-sm outline-none transition-colors ${errors.campaignType ? 'border-error/60' : 'border-white/10 focus:border-primary/60'}`}
+                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-text-primary text-sm outline-none transition-colors ${errors.campaignType ? 'border-error/60' : 'border-white/15 focus:border-primary/60'}`}
                 >
                   <option className="bg-slate-900 text-white" value="">Select campaign type (optional)...</option>
                   {CAMPAIGN_TYPES.map((c) => (

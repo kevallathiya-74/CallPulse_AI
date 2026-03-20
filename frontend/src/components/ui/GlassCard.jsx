@@ -14,9 +14,9 @@ export default React.memo(function GlassCard({
       className={[
         'glass-card',
         hover
-          ? 'transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] hover:border-primary/20 hover:bg-white/[0.04] hover:shadow-[0_20px_40px_rgba(0,0,0,0.3),0_0_20px_rgba(0,212,255,0.05)]'
+          ? 'transition-all duration-400 hover:-translate-y-1.5 hover:scale-[1.008] hover:border-primary/35 hover:bg-white/[0.05] hover:shadow-[0_22px_45px_rgba(0,0,0,0.32),0_0_26px_rgba(0,212,255,0.08)]'
           : '',
-        glow ? 'shadow-[0_0_30px_rgba(0,212,255,0.1)] border-primary/20' : '',
+        glow ? 'shadow-[0_0_34px_rgba(0,212,255,0.16)] border-primary/35' : '',
         onClick ? 'cursor-pointer' : '',
         className,
       ].join(' ')}
