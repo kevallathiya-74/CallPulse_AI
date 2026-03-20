@@ -28,6 +28,7 @@ import SentimentTimeline from '../components/charts/SentimentTimeline';
 import ScorecardRadar from '../components/charts/ScorecardRadar';
 import ReportSkeleton from '../components/skeletons/ReportSkeleton';
 import { useToast } from '../hooks/useToast';
+import { toUserFriendlyMessage } from '../utils/userFriendlyMessage';
 
 const DIMENSION_MAP = [
   { label: 'Sentiment Arc', field: 'sentiment_avg', icon: TrendingUp },
@@ -217,7 +218,10 @@ export default function AnalysisReport() {
       navigate('/dashboard');
     },
     onError: (err) => {
-      toast.error(err?.message || 'Failed to delete report');
+      toast.error(toUserFriendlyMessage(err?.message, {
+        status: err?.status,
+        fallback: 'We could not delete the report right now. Please try again.',
+      }));
     },
   });
 

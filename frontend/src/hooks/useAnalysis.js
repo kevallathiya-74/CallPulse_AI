@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useAnalysisService } from '../services/analysisService';
 import useAnalysisStore from '../store/analysisStore';
+import { toUserFriendlyMessage } from '../utils/userFriendlyMessage';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -53,7 +54,11 @@ export function useAnalysis() {
 
       throw new Error(lastStatus?.message || 'Analysis is taking longer than expected. Please check reports shortly.');
     } catch (err) {
-      const msg = err?.raw?.message || err.response?.data?.message || err.response?.data?.detail || err.message || 'Analysis failed';
+      const rawMsg = err?.raw?.message || err.response?.data?.message || err.response?.data?.detail || err.message;
+      const msg = toUserFriendlyMessage(rawMsg, {
+        status: err?.status || err?.response?.status,
+        fallback: 'We could not complete this analysis. Please try again.',
+      });
       setError(msg);
       return { success: false, error: msg };
     } finally {
@@ -69,7 +74,11 @@ export function useAnalysis() {
       setCurrentReport(result);
       return { success: true, data: result };
     } catch (err) {
-      const msg = err.response?.data?.detail || err.message || 'Could not load report';
+      const rawMsg = err?.response?.data?.detail || err?.message;
+      const msg = toUserFriendlyMessage(rawMsg, {
+        status: err?.status || err?.response?.status,
+        fallback: 'We could not load the report right now. Please try again.',
+      });
       setError(msg);
       return { success: false, error: msg };
     } finally {

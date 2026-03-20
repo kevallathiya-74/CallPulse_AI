@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 import { CheckCircle2, XCircle, AlertTriangle, Loader2, Info } from 'lucide-react';
 import React from 'react';
+import { toUserFriendlyMessage } from '../utils/userFriendlyMessage';
 
 const toastStyle = {
   background: 'rgba(3,8,18,0.95)',
@@ -23,14 +24,14 @@ export function useToast() {
     });
 
   const error = (message) =>
-    toast.error(message, {
+    toast.error(toUserFriendlyMessage(message, { fallback: 'Something went wrong. Please try again.' }), {
       style: { ...toastStyle, borderColor: 'rgba(255,61,87,0.3)' },
       duration: 6000,
       icon: React.createElement(XCircle, { color: '#FF3D57', size: 20 }),
     });
 
   const warning = (message) =>
-    toast(message, {
+    toast(toUserFriendlyMessage(message, { fallback: 'Please review your input and try again.' }), {
       style: { ...toastStyle, borderColor: 'rgba(255,214,0,0.3)' },
       duration: 4000,
       icon: React.createElement(AlertTriangle, { color: '#FFD600', size: 20 }),

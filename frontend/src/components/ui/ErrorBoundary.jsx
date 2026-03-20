@@ -26,16 +26,16 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="flex flex-col items-center justify-center min-h-[300px] p-8 glass-card m-4">
           <AlertTriangle size={48} className="text-warning mb-4" />
-          <h2 className="heading-md text-text-primary mb-2">Something went wrong</h2>
+          <h2 className="heading-md text-text-primary mb-2">This section needs a quick refresh</h2>
           <p className="text-text-muted text-sm mb-6 text-center max-w-md">
-            An unexpected error occurred in this section. You can try refreshing, or continue using other parts of the application.
+            We could not load this part of the page right now. Please try again, or continue using other sections.
           </p>
           <button
             onClick={this.handleReset}
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 border border-primary/30 text-primary rounded-[50px] text-sm font-medium hover:bg-primary/20 transition-colors"
           >
             <RefreshCw size={16} />
-            Try Again
+            Reload Section
           </button>
         </div>
       );

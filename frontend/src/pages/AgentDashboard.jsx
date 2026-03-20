@@ -9,6 +9,7 @@ import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { useAgentService } from '../services/agentService';
 import { useToast } from '../hooks/useToast';
 import { formatScore, getScoreColor } from '../utils/formatScore';
+import { toUserFriendlyMessage } from '../utils/userFriendlyMessage';
 import PageWrapper from '../components/layout/PageWrapper';
 import GlassCard from '../components/ui/GlassCard';
 import Button from '../components/ui/Button';
@@ -77,7 +78,10 @@ export default function AgentDashboard() {
           }
         }
       }
-      toast.error(error?.message || 'Could not create agent. Please try again.');
+      toast.error(toUserFriendlyMessage(error?.message, {
+        status: error?.status,
+        fallback: 'We could not create the agent right now. Please try again.',
+      }));
     },
   });
 

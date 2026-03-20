@@ -11,6 +11,7 @@ import { useAuth } from '@clerk/react';
 import toast from 'react-hot-toast';
 import useSessionStore from '../store/sessionStore';
 import { useMemo } from 'react';
+import { getFriendlyStatusMessage, toUserFriendlyMessage } from '../utils/userFriendlyMessage';
 
 const BASE_URL = import.meta.env.VITE_API_URL || '';
 const HEALTH_CHECK_URL = BASE_URL ? `${BASE_URL}/api/health` : '/api/health';
@@ -20,17 +21,17 @@ const BASE_HEADERS = {
 };
 
 const STATUS_MESSAGES = {
-  400: 'Invalid request — please check your input',
-  401: 'Session expired — please sign in again',
-  403: 'You do not have permission to access this',
-  404: 'The requested resource was not found',
-  409: 'A conflict occurred — this record may already exist',
-  410: 'This link has expired',
-  413: 'File too large — maximum size is 50MB',
-  422: 'Validation failed — please review your input',
-  429: 'Too many requests — please wait a moment',
-  500: 'Server error — our team has been notified',
-  503: 'AI Engine temporarily unavailable — please retry',
+  400: getFriendlyStatusMessage(400),
+  401: getFriendlyStatusMessage(401),
+  403: getFriendlyStatusMessage(403),
+  404: getFriendlyStatusMessage(404),
+  409: getFriendlyStatusMessage(409),
+  410: getFriendlyStatusMessage(410),
+  413: getFriendlyStatusMessage(413),
+  422: getFriendlyStatusMessage(422),
+  429: getFriendlyStatusMessage(429),
+  500: getFriendlyStatusMessage(500),
+  503: getFriendlyStatusMessage(503),
 };
 
 // ── Public API (no auth) ──────────────────────────────────────────────────
@@ -187,7 +188,7 @@ function handleErrorResponse(error) {
     // Network error
     toast.error('Connection lost — check your internet connection', { id: 'network-err' });
     startHealthChecker();
-    return Promise.reject({ status: 0, message: 'Network error', raw: null });
+    return Promise.reject({ status: 0, message: getFriendlyStatusMessage(0), raw: null });
   }
 
   const status = error.response?.status;
@@ -196,7 +197,10 @@ function handleErrorResponse(error) {
     error.response?.data?.message ||
     error.response?.data?.detail ||
     null;
-  const message = detail || STATUS_MESSAGES[status] || 'An unexpected error occurred';
+  const message = toUserFriendlyMessage(detail, {
+    status,
+    fallback: STATUS_MESSAGES[status] || getFriendlyStatusMessage(status),
+  });
 
   // Dispatch global api-error event
   window.dispatchEvent(new CustomEvent('api-error', { detail: { status, message } }));

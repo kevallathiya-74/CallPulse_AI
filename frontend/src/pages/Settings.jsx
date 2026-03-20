@@ -7,6 +7,7 @@ import Button from '../components/ui/Button';
 import { useUserService } from '../services/userService';
 import { useToast } from '../hooks/useToast';
 import { QUERY_KEYS } from '../constants/queryKeys';
+import { toUserFriendlyMessage } from '../utils/userFriendlyMessage';
 
 export default function Settings() {
   const userService = useUserService();
@@ -46,7 +47,10 @@ export default function Settings() {
       toast.success('Profile updated successfully');
     },
     onError: (err) => {
-      toast.error(err?.message || 'Failed to update profile');
+      toast.error(toUserFriendlyMessage(err?.message, {
+        status: err?.status,
+        fallback: 'We could not save your profile changes. Please try again.',
+      }));
     },
   });
 
