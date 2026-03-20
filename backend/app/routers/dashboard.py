@@ -24,7 +24,6 @@ from app.utils.response_utils import success_response, error_response
 router = APIRouter(tags=["dashboard"])
 
 @router.get("/summary")
-@cache(expire=60, key_builder=tenant_key_builder)
 async def dashboard_summary(request: Request, current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     if current_user.role == "admin":
         org_filter = True
@@ -123,17 +122,23 @@ async def dashboard_summary(request: Request, current_user: User = Depends(get_c
         .order_by(Call.created_at.desc())
         .limit(10)
     )
-    recent_calls = [
-        {
-            "id": str(row.Call.id),
-            "agent_name": row.agent_name or "Unknown",
-            "score": round(float(row.composite_score), 1) if row.composite_score is not None else None,
-            "processing_time_ms": int(row.processing_time_ms) if row.processing_time_ms is not None else None,
-            "status": row.Call.status,
-            "created_at": row.Call.created_at.isoformat() if row.Call.created_at else None,
-        }
-        for row in recent_calls_res.all()
-    ]
+    recent_calls = []
+    for row in recent_calls_res.all():
+        effective_status = row.Call.status
+        # If analysis result exists, treat it as complete unless explicitly failed.
+        if row.composite_score is not None and effective_status != "failed":
+            effective_status = "complete"
+
+        recent_calls.append(
+            {
+                "id": str(row.Call.id),
+                "agent_name": row.agent_name or "Unknown",
+                "score": round(float(row.composite_score), 1) if row.composite_score is not None else None,
+                "processing_time_ms": int(row.processing_time_ms) if row.processing_time_ms is not None else None,
+                "status": effective_status,
+                "created_at": row.Call.created_at.isoformat() if row.Call.created_at else None,
+            }
+        )
     
     data = {
         "recent_calls": recent_calls,

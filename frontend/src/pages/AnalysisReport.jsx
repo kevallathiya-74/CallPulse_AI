@@ -191,8 +191,12 @@ export default function AnalysisReport() {
   const { data: rawReport, isLoading: loading } = useQuery({
     queryKey: QUERY_KEYS.REPORT(id),
     queryFn: () => reportService.getReport(id),
-    staleTime: Infinity,
+    staleTime: 0,
     gcTime: 30 * 60 * 1000,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
   });
 
   const report = rawReport?.data || rawReport;
@@ -391,6 +395,20 @@ export default function AnalysisReport() {
   }
 
   const sc = getStatusClasses(status);
+  const dimensionTableRows = [
+    { label: 'Sentiment Arc', value: resolveDimensionScore(report, dimensionScores, 'sentiment_avg') },
+    { label: 'Tone & Empathy', value: resolveDimensionScore(report, dimensionScores, 'empathy_score') },
+    { label: 'Clarity Score', value: resolveDimensionScore(report, dimensionScores, 'clarity_score') },
+    { label: 'Script Compliance', value: resolveDimensionScore(report, dimensionScores, 'compliance_score') },
+    { label: 'Resolution Quality', value: resolveDimensionScore(report, dimensionScores, 'resolution_quality') },
+    { label: 'Professional Language', value: resolveDimensionScore(report, dimensionScores, 'language_score') },
+  ];
+
+  const formatDimensionValue = (value) => {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return '—';
+    return Number.isInteger(num) ? String(num) : num.toFixed(1);
+  };
 
   return (
     <PageWrapper hideFooter>
@@ -486,6 +504,31 @@ export default function AnalysisReport() {
             );
           })}
         </div>
+
+        {/* Always-visible dimension table (live data) */}
+        <GlassCard className="p-6 mb-6 bg-white/[0.02]" hover={false}>
+          <h3 className="font-syne font-semibold text-text-primary mb-3">Dimension Scores</h3>
+          <div className="rounded-xl border border-white/10 overflow-hidden">
+            <table className="w-full">
+              <tbody>
+                {dimensionTableRows.map((row, idx) => (
+                  <tr
+                    key={row.label}
+                    className={idx % 2 === 0 ? 'bg-white/[0.03]' : 'bg-white/[0.015]'}
+                  >
+                    <td className="px-4 py-2.5 text-text-primary text-sm font-medium">{row.label}</td>
+                    <td className="px-4 py-2.5 text-right text-text-primary text-sm font-semibold">
+                      {formatDimensionValue(row.value)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[11px] text-text-muted mt-2">
+            Live data sync is active. Values auto-refresh every 5 seconds.
+          </p>
+        </GlassCard>
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
