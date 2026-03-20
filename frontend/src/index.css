@@ -1,0 +1,273 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #030812;
+  --primary: #00D4FF;
+  --secondary: #7B2FFF;
+  --accent: #FF6B35;
+  --success: #00E676;
+  --warning: #FFD600;
+  --error: #FF3D57;
+  --text-primary: #E8F4FD;
+  --text-muted: rgba(232, 244, 253, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(0, 212, 255, 0.12);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  line-height: 1.2;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.03);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+  opacity: 0.4;
+}
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.7;
+}
+
+/* Glass card base */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 18px;
+}
+
+/* Gradient text animation */
+.gradient-text {
+  background: linear-gradient(135deg, #fff, #00D4FF, #7B2FFF, #FF6B35);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Pulse status dot */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.pulse-dot {
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+/* Waveform bars */
+@keyframes waveBar {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+.wave-bar {
+  transform-origin: bottom;
+  animation: waveBar 0.8s ease-in-out infinite;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Glow animation */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(0,212,255,0.2); }
+  50% { box-shadow: 0 0 35px rgba(0,212,255,0.5); }
+}
+
+/* Shine sweep */
+@keyframes shineSweep {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* Section entrance animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Button shine effect */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: none;
+}
+.btn-shine:hover::after {
+  animation: shineSweep 0.5s ease forwards;
+}
+
+/* Timeline line */
+.timeline-line {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--primary),
+    var(--secondary),
+    transparent
+  );
+}
+
+/* Score arc */
+.score-arc {
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Custom range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(0,212,255,0.15);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0,212,255,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(0,212,255,0.7);
+}
+
+/* Touch targets */
+button, a, input, select, textarea, [role="button"] {
+  min-height: 44px;
+}
+
+/* Responsive heading sizes with clamp */
+.heading-xl {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+}
+.heading-lg {
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+}
+.heading-md {
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+}
+
+/* Grid pattern overlay */
+.grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Table scroll on mobile */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll th:first-child,
+.table-scroll td:first-child {
+  position: sticky;
+  left: 0;
+  background: #030812;
+  z-index: 1;
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 4px;
+  background: rgba(0,212,255,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Recharts tooltip custom */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Framer Motion default */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Off-screen rendering optimization */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
+section:first-of-type, #hero {
+  content-visibility: visible;
+}
