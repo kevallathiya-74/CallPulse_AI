@@ -1,0 +1,11 @@
+Agent: Thank you for calling, this is Priya speaking. How may I help you today?
+Customer: Hi, I have a problem with my billing. I was charged twice this month.
+Agent: I understand your concern, that must be frustrating. Let me look into this for you right away.
+Customer: I have been waiting for three days for this to be resolved.
+Agent: I completely understand and I sincerely apologize for the inconvenience. I can see the duplicate charge on your account.
+Customer: Can you fix it now?
+Agent: Absolutely. I will process the refund immediately. Your ₹850 will be credited within 24 hours. May I confirm your account number ending in?
+Customer: Yes, it ends in 4521.
+Agent: Perfect. I have updated your account and raised ticket number TKT-98271 for this. Is there anything else I can help you with?
+Customer: No that is all, thank you.
+Agent: Thank you for calling and have a great day. This call may have been recorded for quality purposes.

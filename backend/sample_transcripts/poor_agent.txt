@@ -1,0 +1,13 @@
+Agent: Hello what do you want?
+Customer: I need help with my internet connection, it keeps dropping.
+Agent: Okay so um have you tried restarting the router?
+Customer: Yes I have tried that multiple times. It is really frustrating.
+Agent: Like I don't know what else to tell you basically. Sometimes it just does that.
+Customer: That is not helpful at all. I am paying for this service.
+Agent: Yeah so I can put in a ticket or whatever. Is that okay?
+Customer: Will someone actually call me back?
+Agent: Uh probably yeah. I mean we are pretty busy right now you know.
+Customer: This is terrible service. I want to cancel.
+Agent: Okay yeah I can do that if you want.
+Customer: No do not cancel, just fix my internet.
+Agent: Alright so I will send a technician I guess. Okay bye.
