@@ -45,6 +45,15 @@ const clampScore = (value) => {
   return Math.max(0, Math.min(100, num));
 };
 
+const getToneLabelFromScore = (score) => {
+  const val = Number(score);
+  if (!Number.isFinite(val)) return 'Neutral';
+  if (val >= 80) return 'Empathetic';
+  if (val >= 60) return 'Professional';
+  if (val >= 40) return 'Neutral';
+  return 'Needs Empathy';
+};
+
 const formatEntityId = (value) => {
   if (!value) return 'Unknown';
   const raw = String(value);
@@ -451,12 +460,27 @@ export default function AnalysisReport() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
           {DIMENSION_MAP.map(({ label, field, icon }) => {
             const score = resolveDimensionScore(report, dimensionScores, field);
+            const toneLabel =
+              report?.tone_labels?.dominant_tone
+              || report?.tone_label
+              || getToneLabelFromScore(score);
             return (
               <GlassCard key={label} className="p-4 text-center bg-white/[0.02]" hover={false}>
                 {React.createElement(icon, { size: 18, className: `mx-auto mb-2 ${getScoreColor(score ?? 0)}` })}
-                <p className={`text-2xl font-syne font-bold ${getScoreColor(score ?? 0)}`}>
-                  {score != null ? `${Math.round(score)} / 100` : '—'}
-                </p>
+                {label === 'Tone & Empathy' ? (
+                  <>
+                    <p className={`text-lg font-syne font-bold ${getScoreColor(score ?? 0)}`}>
+                      {score != null ? toneLabel : '—'}
+                    </p>
+                    <p className="text-text-muted text-[11px] mt-1">
+                      {score != null ? `${Math.round(score)} / 100` : ''}
+                    </p>
+                  </>
+                ) : (
+                  <p className={`text-2xl font-syne font-bold ${getScoreColor(score ?? 0)}`}>
+                    {score != null ? `${Math.round(score)} / 100` : '—'}
+                  </p>
+                )}
                 <p className="text-text-muted text-xs mt-1">{label}</p>
               </GlassCard>
             );

@@ -3,7 +3,17 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../constants/queryKeys';
-import { ArrowLeft, Users, Calendar, TrendingUp, ShieldCheck, XCircle } from 'lucide-react';
+import {
+  ArrowLeft,
+  Calendar,
+  TrendingUp,
+  ShieldCheck,
+  XCircle,
+  Heart,
+  BookOpen,
+  CheckCircle2,
+  MessageSquare,
+} from 'lucide-react';
 import { useAgentService } from '../services/agentService';
 import { formatScore, getScoreColor } from '../utils/formatScore';
 import PageWrapper from '../components/layout/PageWrapper';
@@ -17,6 +27,24 @@ const DIMENSIONS = [
   'Script Compliance', 'Resolution Quality', 'Professional Language',
 ];
 
+const DIMENSION_ICONS = {
+  'Sentiment Arc': TrendingUp,
+  'Tone & Empathy': Heart,
+  'Clarity Score': BookOpen,
+  'Script Compliance': ShieldCheck,
+  'Resolution Quality': CheckCircle2,
+  'Professional Language': MessageSquare,
+};
+
+const getToneLabelFromScore = (score) => {
+  const val = Number(score);
+  if (!Number.isFinite(val)) return 'Neutral';
+  if (val >= 80) return 'Empathetic';
+  if (val >= 60) return 'Professional';
+  if (val >= 40) return 'Neutral';
+  return 'Needs Empathy';
+};
+
 export default function AgentProfile() {
   const { id } = useParams();
   const agentService = useAgentService();
@@ -24,7 +52,9 @@ export default function AgentProfile() {
   const { data: rawAgent, isLoading: loading } = useQuery({
     queryKey: QUERY_KEYS.AGENT(id),
     queryFn: () => agentService.getAgent(id),
-    staleTime: 60000,
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   });
 
   const agent = rawAgent?.data || rawAgent;
@@ -116,15 +146,46 @@ export default function AgentProfile() {
                     'Resolution Quality': 'resolution',
                     'Professional Language': 'professional_language',
                   }[dim];
+                  const Icon = DIMENSION_ICONS[dim] || TrendingUp;
                   const score = backendKey ? agent.dimension_averages?.[backendKey] : null;
+                  const toneLabel =
+                    agent?.dimension_averages?.tone_label
+                    || agent?.tone_labels?.dominant_tone
+                    || agent?.dominant_tone
+                    || getToneLabelFromScore(score);
                   return (
-                    <div key={dim} className="bg-white/[0.03] rounded-2xl p-4 text-center border border-white/[0.06] hover:border-white/10 transition-colors">
-                      <p className={`text-2xl font-syne font-bold ${score != null ? getScoreColor(score) : 'text-text-muted'}`}>
-                        {score != null ? score : '—'}
-                      </p>
-                      <p className="text-text-muted text-xs mt-1">{dim}</p>
+                    <div
+                      key={dim}
+                      className={[
+                        'rounded-3xl p-5 text-center border transition-colors',
+                        'bg-gradient-to-b from-[#031329] to-[#041026] border-cyan-400/25',
+                        'hover:border-cyan-300/45 hover:shadow-[0_10px_24px_rgba(0,0,0,0.35)]',
+                        dim === 'Tone & Empathy' ? 'from-[#07162f] to-[#051126] border-pink-400/30' : '',
+                      ].join(' ')}
+                    >
+                      <div className="mb-3 flex justify-center">
+                        <Icon
+                          size={18}
+                          className={dim === 'Tone & Empathy' ? 'text-pink-300' : 'text-cyan-300'}
+                        />
+                      </div>
+                      {dim === 'Tone & Empathy' ? (
+                        <>
+                          <p className={`text-4xl leading-none font-syne font-bold ${score != null ? getScoreColor(score) : 'text-text-muted'}`}>
+                            {score != null ? toneLabel : '—'}
+                          </p>
+                          <p className="text-text-muted text-lg mt-2 font-syne font-bold">
+                            {score != null ? `${score} / 100` : ''}
+                          </p>
+                        </>
+                      ) : (
+                        <p className={`text-4xl leading-none font-syne font-bold ${score != null ? getScoreColor(score) : 'text-text-muted'}`}>
+                          {score != null ? `${score} / 100` : '—'}
+                        </p>
+                      )}
+                      <p className="text-text-muted text-base mt-2">{dim}</p>
                       {score != null && (
-                        <div className="mt-2 h-1 rounded-full bg-white/5 overflow-hidden">
+                        <div className="mt-3 h-1 rounded-full bg-white/5 overflow-hidden">
                           <div className="h-full rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7b2fff]" style={{ width: `${score}%` }} />
                         </div>
                       )}

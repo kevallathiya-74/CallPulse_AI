@@ -1,0 +1,95 @@
+# =========================
+# Secrets / Environment
+# =========================
+.env
+**/.env
+.env.*
+!.env.example
+!**/.env.example
+
+# =========================
+# Python
+# =========================
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+pip-wheel-metadata/
+
+# =========================
+# Node / Frontend
+# =========================
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.cache/
+.parcel-cache/
+frontend/.vite/
+frontend/dist/
+frontend/build/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Runtime outputs (backend)
+# =========================
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/exports/*
+!backend/exports/.gitkeep
+backend/logs/*
+!backend/logs/.gitkeep
+*.log
+
+# =========================
+# Local databases
+# =========================
+*.db
+*.sqlite3
+*.sqlite
+
+# =========================
+# Large local model assets
+# =========================
+backend/models/
+frontend/models/
+ollama models/
+Model/
+audio
+Docs
+
+# =========================
+# IDE / OS
+# =========================
+.vscode/
+.idea/
+.cursor/
+.history/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# =========================
+# Misc
+# =========================
+*.tmp
+*.temp
